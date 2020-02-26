@@ -14,7 +14,7 @@ const ScoresModel = require('../models/scores');
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || '3000');
+var port = normalizePort(process.env.PORT || process.env.PORTCHANGE);
 app.set('port', port);
 
 /**
@@ -27,52 +27,52 @@ const io = socketIo(server);
 
 let connectedSockets = [];
 io.on('connection', async (socket) => {
-  //console.log('initial connection established');
-  //console.log('initial socket id', socket.id);
-  connectedSockets.push(socket);
+   //console.log('initial connection established');
+   //console.log('initial socket id', socket.id);
+   connectedSockets.push(socket);
 
-  // getting back data to be stored in database
-  // call ScoresModel.addScore() here
-  socket.on('game-results', async (data) => {
-    //console.log('data coming from front', data)
-    const { wave, kills, user_id, game_mode_id, timestamp } = data;
-    await ScoresModel.addScore(wave, kills, user_id, game_mode_id, timestamp)
-  })
+   // getting back data to be stored in database
+   // call ScoresModel.addScore() here
+   socket.on('game-results', async (data) => {
+      //console.log('data coming from front', data)
+      const { wave, kills, user_id, game_mode_id, timestamp } = data;
+      await ScoresModel.addScore(wave, kills, user_id, game_mode_id, timestamp)
+   })
 
-  let interval;
-  // Setting initial values of scores to compare to the data coming in on every interval call
-  let recentScoresHolder = await ScoresModel.getRecentScores();
-  let highScoresHolder = await ScoresModel.getHighScores();
+   let interval;
+   // Setting initial values of scores to compare to the data coming in on every interval call
+   let recentScoresHolder = await ScoresModel.getRecentScores();
+   let highScoresHolder = await ScoresModel.getHighScores();
 
-  interval = setInterval(async () => {
-    highScores = await ScoresModel.getHighScores();
-    recentScores = await ScoresModel.getRecentScores();
+   interval = setInterval(async () => {
+      highScores = await ScoresModel.getHighScores();
+      recentScores = await ScoresModel.getRecentScores();
 
-    for (let i=0; i<highScores.length; i++) {
-      if (highScoresHolder[i].timestamp !== highScores[i].timestamp) {
-        socket.emit('highScores', highScores);
-        highScoresHolder = highScores;
+      for (let i = 0; i < highScores.length; i++) {
+         if (highScoresHolder[i].timestamp !== highScores[i].timestamp) {
+            socket.emit('highScores', highScores);
+            highScoresHolder = highScores;
+         }
       }
-    }
-  
-    if (recentScoresHolder[0].timestamp !== recentScores[0].timestamp) {
-      //console.log('not the same')
-      socket.emit('recentScores', recentScores);
-      recentScoresHolder = recentScores;
-    } 
 
-  }, 5000)
+      if (recentScoresHolder[0].timestamp !== recentScores[0].timestamp) {
+         //console.log('not the same')
+         socket.emit('recentScores', recentScores);
+         recentScoresHolder = recentScores;
+      }
 
-  socket.on('disconnect', () => {
-    //console.log('user disconnected');
-    //console.log('disconnected socket id', socket.id);
-    connectedSockets.forEach((x) => {
-      //console.log('for each loop', x.disconnected)
-      x.disconnect(true);
-      clearInterval(interval);
-    })
-  })
-  //console.log('sockets array', connectedSockets.length)
+   }, 5000)
+
+   socket.on('disconnect', () => {
+      //console.log('user disconnected');
+      //console.log('disconnected socket id', socket.id);
+      connectedSockets.forEach((x) => {
+         //console.log('for each loop', x.disconnected)
+         x.disconnect(true);
+         clearInterval(interval);
+      })
+   })
+   //console.log('sockets array', connectedSockets.length)
 
 })
 
@@ -90,19 +90,19 @@ server.on('listening', onListening);
  */
 
 function normalizePort(val) {
-  var port = parseInt(val, 10);
+   var port = parseInt(val, 10);
 
-  if (isNaN(port)) {
-    // named pipe
-    return val;
-  }
+   if (isNaN(port)) {
+      // named pipe
+      return val;
+   }
 
-  if (port >= 0) {
-    // port number
-    return port;
-  }
+   if (port >= 0) {
+      // port number
+      return port;
+   }
 
-  return false;
+   return false;
 }
 
 /**
@@ -110,27 +110,27 @@ function normalizePort(val) {
  */
 
 function onError(error) {
-  if (error.syscall !== 'listen') {
-    throw error;
-  }
-
-  var bind = typeof port === 'string'
-    ? 'Pipe ' + port
-    : 'Port ' + port;
-
-  // handle specific listen errors with friendly messages
-  switch (error.code) {
-    case 'EACCES':
-      console.error(bind + ' requires elevated privileges');
-      process.exit(1);
-      break;
-    case 'EADDRINUSE':
-      console.error(bind + ' is already in use');
-      process.exit(1);
-      break;
-    default:
+   if (error.syscall !== 'listen') {
       throw error;
-  }
+   }
+
+   var bind = typeof port === 'string'
+      ? 'Pipe ' + port
+      : 'Port ' + port;
+
+   // handle specific listen errors with friendly messages
+   switch (error.code) {
+      case 'EACCES':
+         console.error(bind + ' requires elevated privileges');
+         process.exit(1);
+         break;
+      case 'EADDRINUSE':
+         console.error(bind + ' is already in use');
+         process.exit(1);
+         break;
+      default:
+         throw error;
+   }
 }
 
 /**
@@ -138,9 +138,9 @@ function onError(error) {
  */
 
 function onListening() {
-  var addr = server.address();
-  var bind = typeof addr === 'string'
-    ? 'pipe ' + addr
-    : 'port ' + addr.port;
-  debug('Listening on ' + bind);
+   var addr = server.address();
+   var bind = typeof addr === 'string'
+      ? 'pipe ' + addr
+      : 'port ' + addr.port;
+   debug('Listening on ' + bind);
 }

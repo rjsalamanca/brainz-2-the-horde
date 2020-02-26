@@ -5,10 +5,10 @@ const pgp = require("pg-promise")({
 });
 
 const options = {
-   host: process.env.HOST, // change to your host, ex. localhost
-   database: process.env.DATABASE, // change to your postgreSQL database
-   user: process.env.USER, // change to database user
-   secret: process.env.SECRET // database password
+   host: process.env.DB_HOST, // change to your host, ex. localhost
+   database: process.env.DB_DATABASE, // change to your postgreSQL database
+   user: process.env.DB_USER, // change to database user
+   secret: process.env.DB_SECRET // database password
 };
 const db = pgp(options);
 
