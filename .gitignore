@@ -3,7 +3,7 @@
 # Edit at https://www.gitignore.io/?templates=macos,visualstudiocode,node
 ### macOS ###
 # General
-conn.js
+# conn.js
 .DS_Store
 .AppleDouble
 .LSOverride
