@@ -19,7 +19,7 @@
     "debug": "~2.6.9",
     "express": "~4.16.1",
     "express-session": "^1.16.2",
-    "helmet": "^3.18.0",
+    "helmet": "^3.21.3",
     "http": "0.0.0",
     "http-errors": "^1.6.3",
     "mocha": "^6.1.4",

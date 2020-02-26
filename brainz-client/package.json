@@ -13,7 +13,7 @@
     "react-dom": "^16.8.6",
     "react-public-ip": "^1.0.0",
     "react-router-dom": "^5.0.1",
-    "react-scripts": "3.0.1",
+    "react-scripts": "^3.4.0",
     "react-scrollable-anchor": "^0.6.1",
     "socket.io-client": "^2.2.0",
     "styled-components": "^4.3.2"
