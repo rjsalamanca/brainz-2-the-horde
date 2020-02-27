@@ -6,11 +6,11 @@ import MainContainer from "../sharedComponents/mainContainer"
 import "../App.css";
 import { StyledLi, StyledH1, StyledH4 } from '../styled-components/profilePageStyles';
 
-const ip = '10.150.11.29';
+import { ip, PORT } from '../apiConnect';
 
 class Profile extends Component {
    state = {
-      endpoint: `${ip}:4000`,
+      endpoint: `${ip}:${PORT}`,
       loginMessage: "",
       myScores: []
    }
@@ -26,14 +26,14 @@ class Profile extends Component {
    }
 
    loadMyScores = async () => {
-      const url = `http://${ip}:4000/my-scores/${this.props.user.id}`;
+      const url = `http://${ip}:${PORT}/my-scores/${this.props.user.id}`;
       const response = await fetch(url);
       const data = response.json();
       return data;
    }
 
    getProfile = async () => {
-      const url = `http://${ip}:4000/users/`;
+      const url = `http://${ip}:${PORT}/users/`;
 
       const { endpoint } = this.state;
       const socket = io(endpoint);

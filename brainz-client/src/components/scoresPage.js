@@ -6,12 +6,11 @@ import GameOverImg from '../images/gameover-once.gif';
 import MainContainer from '../sharedComponents/mainContainer';
 import "../Animate.css";
 
-import { PORT } from "../apiConnect";
+import { ip, PORT } from "../apiConnect";
 
 const moment = require('moment');
 
 // open network preferences and grab ip and change it to yours
-const ip = "";
 
 moment.updateLocale('en', {
    relativeTime: {
